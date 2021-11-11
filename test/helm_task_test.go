@@ -43,6 +43,7 @@ var (
 // TestHelmDeployPipelineRun is an integration test that will verify a pipeline build an image
 // and then using helm to deploy it
 func TestHelmDeployPipelineRun(t *testing.T) {
+	t.Skip("skip me")
 	repo := ensureDockerRepo(t)
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
