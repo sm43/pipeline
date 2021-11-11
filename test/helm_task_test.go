@@ -1,3 +1,4 @@
+//go:build e2e
 // +build e2e
 
 /*
@@ -29,7 +30,7 @@ import (
 	resources "github.com/tektoncd/pipeline/pkg/apis/resource/v1alpha1"
 	"github.com/tektoncd/pipeline/pkg/names"
 	corev1 "k8s.io/api/core/v1"
-	rbacv1 "k8s.io/api/rbac/v1beta1"
+	rbacv1 "k8s.io/api/rbac/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	knativetest "knative.dev/pkg/test"
 	"knative.dev/pkg/test/helpers"
@@ -302,7 +303,7 @@ func setupClusterBindingForHelm(ctx context.Context, c *clients, t *testing.T, n
 
 	for _, crb := range clusterRoleBindings {
 		t.Logf("Creating Cluster Role binding %s for helm", crb.Name)
-		if _, err := c.KubeClient.RbacV1beta1().ClusterRoleBindings().Create(ctx, crb, metav1.CreateOptions{}); err != nil {
+		if _, err := c.KubeClient.RbacV1().ClusterRoleBindings().Create(ctx, crb, metav1.CreateOptions{}); err != nil {
 			t.Fatalf("Failed to create cluster role binding for Helm %s", err)
 		}
 	}
@@ -315,7 +316,7 @@ func helmCleanup(ctx context.Context, c *clients, t *testing.T, namespace string
 
 	for _, crb := range clusterRoleBindings {
 		t.Logf("Deleting Cluster Role binding %s for helm", crb.Name)
-		if err := c.KubeClient.RbacV1beta1().ClusterRoleBindings().Delete(ctx, crb.Name, metav1.DeleteOptions{}); err != nil {
+		if err := c.KubeClient.RbacV1().ClusterRoleBindings().Delete(ctx, crb.Name, metav1.DeleteOptions{}); err != nil {
 			t.Fatalf("Failed to delete cluster role binding for Helm %s", err)
 		}
 	}
